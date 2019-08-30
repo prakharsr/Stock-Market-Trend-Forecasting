@@ -1126,25 +1126,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
     candlestick_cluster[5]['Body']>0.5 and 
     cluster[5]['Open']>cluster[4]['Close'] and 
     cluster[5]['Close']>cluster[4]['Open'] and 
-    (fuzzified_candlestick_cluster[4]['Fuzzy_Body']=='BLACK_MIDDLE' or fuzzified_candlestick_cluster[4]['Fuzzy_Body']=='BLACK_LONG') and 
-    ((  fuzzified_candlestick_cluster[5]['Fuzzy_Difclose']=='SHORT' and 
-        fuzzified_candlestick_cluster[5]['Fuzzy_Difcentral']=='SHORT') or 
-        (fuzzified_candlestick_cluster[5]['Fuzzy_Difclose']=='SHORT' and 
-        fuzzified_candlestick_cluster[5]['Fuzzy_Difcentral']=='MIDDLE') or 
-        (fuzzified_candlestick_cluster[5]['Fuzzy_Difclose']=='SHORT' and 
-        fuzzified_candlestick_cluster[5]['Fuzzy_Difcentral']=='LONG') or 
-        (fuzzified_candlestick_cluster[5]['Fuzzy_Difclose']=='MIDDLE' and 
-        fuzzified_candlestick_cluster[5]['Fuzzy_Difcentral']=='MIDDLE') or 
-        (fuzzified_candlestick_cluster[5]['Fuzzy_Difclose']=='MIDDLE' and 
-        fuzzified_candlestick_cluster[5]['Fuzzy_Difcentral']=='SHORT') or 
-        (fuzzified_candlestick_cluster[5]['Fuzzy_Difclose']=='MIDDLE' and 
-        fuzzified_candlestick_cluster[5]['Fuzzy_Difcentral']=='LONG') or 
-        (fuzzified_candlestick_cluster[5]['Fuzzy_Difclose']=='LONG' and 
-        fuzzified_candlestick_cluster[5]['Fuzzy_Difcentral']=='LONG') or 
-        (fuzzified_candlestick_cluster[5]['Fuzzy_Difclose']=='LONG' and 
-        fuzzified_candlestick_cluster[5]['Fuzzy_Difcentral']=='SHORT') or 
-        (fuzzified_candlestick_cluster[5]['Fuzzy_Difclose']=='LONG' and 
-        fuzzified_candlestick_cluster[5]['Fuzzy_Difcentral']=='MIDDLE'))):
+    (fuzzified_candlestick_cluster[4]['Fuzzy_Body']=='BLACK_MIDDLE' or fuzzified_candlestick_cluster[4]['Fuzzy_Body']=='BLACK_LONG')):
 
         if(fuzzified_candlestick_cluster[5]['Fuzzy_Difclose']=='SHORT' and 
         fuzzified_candlestick_cluster[5]['Fuzzy_Difcentral']=='SHORT' and 
