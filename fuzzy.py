@@ -889,10 +889,10 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
     # threee_white_soldiers={}
 
     #kicking
-    if(cluster[4]['High'] == cluster[4]['Open'] and 
-    cluster[4]['Low'] == cluster[4]['Close'] and 
-    cluster[5]['High'] == cluster[5]['Close'] and 
-    cluster[5]['Low'] == cluster[5]['Open'] and 
+    if(fuzzified_candlestick_cluster[4]['Fuzzy_Upper']=='NULL' and 
+    fuzzified_candlestick_cluster[4]['Fuzzy_Lower']=='NULL' and 
+    fuzzified_candlestick_cluster[5]['Fuzzy_Upper']=='NULL' and 
+    fuzzified_candlestick_cluster[5]['Fuzzy_Lower']=='NULL' and 
     cluster[5]['Low'] > cluster[4]['High'] and 
     candlestick_cluster[4]['Body']<-0.5 and
     candlestick_cluster[5]['Body']>0.5):
@@ -901,21 +901,21 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         fuzzified_candlestick_cluster[4]['Fuzzy_Lower']=='NULL' and 
         fuzzified_candlestick_cluster[5]['Fuzzy_Upper']=='NULL' and 
         fuzzified_candlestick_cluster[5]['Fuzzy_Lower']=='NULL' and 
-        fuzzified_candlestick_cluster[5]['Gap']=='LONG'):
+        fuzzified_candlestick_cluster[5]['Fuzzy_Gap']=='LONG'):
             kicking['Bullish']='HIGH'
 
         elif(fuzzified_candlestick_cluster[4]['Fuzzy_Upper']=='NULL' and 
         fuzzified_candlestick_cluster[4]['Fuzzy_Lower']=='NULL' and 
         fuzzified_candlestick_cluster[5]['Fuzzy_Upper']=='NULL' and 
         fuzzified_candlestick_cluster[5]['Fuzzy_Lower']=='NULL' and 
-        fuzzified_candlestick_cluster[5]['Gap']=='MIDDLE'):
+        fuzzified_candlestick_cluster[5]['Fuzzy_Gap']=='MIDDLE'):
             kicking['Bullish']='MEDIUM_HIGH'
 
         elif(fuzzified_candlestick_cluster[4]['Fuzzy_Upper']=='NULL' and 
         fuzzified_candlestick_cluster[4]['Fuzzy_Lower']=='NULL' and 
         fuzzified_candlestick_cluster[5]['Fuzzy_Upper']=='NULL' and 
         fuzzified_candlestick_cluster[5]['Fuzzy_Lower']=='NULL' and 
-        fuzzified_candlestick_cluster[5]['Gap']=='SHORT'):
+        fuzzified_candlestick_cluster[5]['Fuzzy_Gap']=='SHORT'):
             kicking['Bullish']='MEDIUM'
 
         else:
@@ -1233,10 +1233,10 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
     dark_cloud_clover={}
    
     #kicking
-    if(cluster[4]['Close'] == cluster[4]['High'] and 
-    cluster[4]['Low'] == cluster[4]['Open'] and 
-    cluster[5]['High'] == cluster[5]['Open'] and 
-    cluster[5]['Low'] == cluster[5]['Close'] and 
+    if(fuzzified_candlestick_cluster[4]['Fuzzy_Upper']=='NULL' and 
+    fuzzified_candlestick_cluster[4]['Fuzzy_Lower']=='NULL' and 
+    fuzzified_candlestick_cluster[5]['Fuzzy_Upper']=='NULL' and 
+    fuzzified_candlestick_cluster[5]['Fuzzy_Lower']=='NULL' and 
     cluster[4]['Low'] > cluster[5]['High'] and 
     candlestick_cluster[4]['Body']>0.5 and
     candlestick_cluster[5]['Body']<-0.5):
@@ -1245,21 +1245,21 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         fuzzified_candlestick_cluster[4]['Fuzzy_Lower']=='NULL' and 
         fuzzified_candlestick_cluster[5]['Fuzzy_Upper']=='NULL' and 
         fuzzified_candlestick_cluster[5]['Fuzzy_Lower']=='NULL' and 
-        fuzzified_candlestick_cluster[5]['Gap']=='LONG'):
+        fuzzified_candlestick_cluster[5]['Fuzzy_Gap']=='LONG'):
             kicking['Bearish']='HIGH'
 
         elif(fuzzified_candlestick_cluster[4]['Fuzzy_Upper']=='NULL' and 
         fuzzified_candlestick_cluster[4]['Fuzzy_Lower']=='NULL' and 
         fuzzified_candlestick_cluster[5]['Fuzzy_Upper']=='NULL' and 
         fuzzified_candlestick_cluster[5]['Fuzzy_Lower']=='NULL' and 
-        fuzzified_candlestick_cluster[5]['Gap']=='MIDDLE'):
+        fuzzified_candlestick_cluster[5]['Fuzzy_Gap']=='MIDDLE'):
             kicking['Bearish']='MEDIUM_HIGH'
 
         elif(fuzzified_candlestick_cluster[4]['Fuzzy_Upper']=='NULL' and 
         fuzzified_candlestick_cluster[4]['Fuzzy_Lower']=='NULL' and 
         fuzzified_candlestick_cluster[5]['Fuzzy_Upper']=='NULL' and 
         fuzzified_candlestick_cluster[5]['Fuzzy_Lower']=='NULL' and 
-        fuzzified_candlestick_cluster[5]['Gap']=='SHORT'):
+        fuzzified_candlestick_cluster[5]['Fuzzy_Gap']=='SHORT'):
             kicking['Bearish']='MEDIUM'
 
         else:
