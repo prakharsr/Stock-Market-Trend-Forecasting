@@ -859,15 +859,19 @@ def fuzzify_candlestick(data):
 def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_cluster):
     
     identified_candlestick = {
-    'Kicking' : 0,
-    'Engulfing' : 0,
-    'Harami' : 0,
+    'Kicking_Bullish' : 0,
+    'Kicking_Bearish' : 0,
+    'Engulfing_Bullish' : 0,
+    'Engulfing_Bearish' : 0,
+    'Harami_Bullish' : 0,
+    'Harami_Bearish' : 0,
+    'Meeting_Line_Bullish' : 0,
+    'Meeting_Line_Bearish' : 0,
     'Hammer' : 0,
     'Inverted_Hammer' : 0,
     'Piercing_Line' : 0,
     'One_White_Soldier' : 0,
     'Homing_Pigeon' : 0,
-    'Meeting_Line' : 0,
     'Hanging_Man' : 0,
     'Descending_Hawk' : 0,
     'One_Black_Crow' : 0,
@@ -921,7 +925,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             kicking['Bullish']='HOLD'
 
-        identified_candlestick['Kicking']=1
+        identified_candlestick['Kicking_Bullish']=1
 
     #hammer
 
@@ -1049,7 +1053,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             engulfing['Bullish']='HOLD'
 
-        identified_candlestick['Engulfing']=1
+        identified_candlestick['Engulfing_Bullish']=1
 
     # harami
 
@@ -1070,7 +1074,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             harami['Bullish']='HOLD'
 
-        identified_candlestick['Harami']=1      
+        identified_candlestick['Harami_Bullish']=1      
 
     # inverted hammer
 
@@ -1217,14 +1221,14 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             meeting_line['Bullish']='HOLD'
 
-        identified_candlestick['Meeting_Line']=1 
+        identified_candlestick['Meeting_Line_Bullish']=1 
 
 
 
     # 2 DAY BEARISH CANDLESTICKS
     # kicking={}
     # engulfing={}
-    # harami={}
+    # harami={}_Bullish
     # meeting_line={}
     hanging_man={}
     descending_hawk={}
@@ -1264,7 +1268,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             kicking['Bearish']='HOLD'
 
-        identified_candlestick['Kicking']=1
+        identified_candlestick['Kicking_Bearish']=1
 
     # engulfing
 
@@ -1285,7 +1289,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             engulfing['Bearish']='HOLD'
 
-        identified_candlestick['Engulfing']=1
+        identified_candlestick['Engulfing_Bearish']=1
 
     # harami
 
@@ -1306,13 +1310,14 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             harami['Bearish']='HOLD'
 
-        identified_candlestick['Harami']=1 
+        identified_candlestick['Harami_Bearish']=1 
 
     # meeting line
 
     if(candlestick_cluster[4]['Body']>0.5 and
     candlestick_cluster[5]['Body']<-0.5 and 
-    cluster[4]['Close']==cluster[5]['Close']):
+    ((cluster[5]['Close']-cluster[4]['Close'])/cluster[5]['Close']) <= 0.5 and 
+    ((cluster[5]['Close']-cluster[4]['Close'])/cluster[5]['Close']) >= 0):
 
         if(fuzzified_candlestick_cluster[5]['Fuzzy_Body']=='BLACK_SHORT'):
             meeting_line['Bearish']='LOW'
@@ -1326,7 +1331,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             meeting_line['Bearish']='HOLD'
 
-        identified_candlestick['Meeting_Line']=1 
+        identified_candlestick['Meeting_Line_Bearish']=1 
 
     # hanging man
 
@@ -1788,15 +1793,19 @@ for index in range(len(datasheet)-6):
     y=6    
 
 identified_candlestick_cluster = {
-    'Kicking' : 0,
-    'Engulfing' : 0,
-    'Harami' : 0,
+'Kicking_Bullish' : 0,
+    'Kicking_Bearish' : 0,
+    'Engulfing_Bullish' : 0,
+    'Engulfing_Bearish' : 0,
+    'Harami_Bullish' : 0,
+    'Harami_Bearish' : 0,
+    'Meeting_Line_Bullish' : 0,
+    'Meeting_Line_Bearish' : 0,
     'Hammer' : 0,
     'Inverted_Hammer' : 0,
     'Piercing_Line' : 0,
     'One_White_Soldier' : 0,
     'Homing_Pigeon' : 0,
-    'Meeting_Line' : 0,
     'Hanging_Man' : 0,
     'Descending_Hawk' : 0,
     'One_Black_Crow' : 0,
@@ -1814,12 +1823,22 @@ for index in range(len(clusters)):
     div=divergence(cluster)
     sr=swing_rejection(cluster)
 #     print(identified_candlestick)
-    if(identified_candlestick['Kicking']!=0):
-        identified_candlestick_cluster['Kicking']+=1
-    if(identified_candlestick['Engulfing']!=0):
-        identified_candlestick_cluster['Engulfing']+=1
-    if(identified_candlestick['Harami']!=0):
-        identified_candlestick_cluster['Harami']+=1
+    if(identified_candlestick['Kicking_Bullish']!=0):
+        identified_candlestick_cluster['Kicking_Bullish']+=1
+    if(identified_candlestick['Engulfing_Bullish']!=0):
+        identified_candlestick_cluster['Engulfing_Bullish']+=1
+    if(identified_candlestick['Harami_Bullish']!=0):
+        identified_candlestick_cluster['Harami_Bullish']+=1
+    if(identified_candlestick['Meeting_Line_Bullish']!=0):
+        identified_candlestick_cluster['Meeting_Line_Bullish']+=1
+    if(identified_candlestick['Kicking_Bearish']!=0):
+        identified_candlestick_cluster['Kicking_Bearish']+=1
+    if(identified_candlestick['Engulfing_Bearish']!=0):
+        identified_candlestick_cluster['Engulfing_Bearish']+=1
+    if(identified_candlestick['Harami_Bearish']!=0):
+        identified_candlestick_cluster['Harami_Bearish']+=1
+    if(identified_candlestick['Meeting_Line_Bearish']!=0):
+        identified_candlestick_cluster['Meeting_Line_Bearish']+=1
     if(identified_candlestick['Hammer']!=0):
         identified_candlestick_cluster['Hammer']+=1
     if(identified_candlestick['Inverted_Hammer']!=0):
@@ -1830,8 +1849,6 @@ for index in range(len(clusters)):
         identified_candlestick_cluster['One_White_Soldier']+=1
     if(identified_candlestick['Homing_Pigeon']!=0):
         identified_candlestick_cluster['Homing_Pigeon']+=1
-    if(identified_candlestick['Meeting_Line']!=0):
-        identified_candlestick_cluster['Meeting_Line']+=1
     if(identified_candlestick['Hanging_Man']!=0):
         identified_candlestick_cluster['Hanging_Man']+=1
     if(identified_candlestick['One_White_Soldier']!=0):
