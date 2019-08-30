@@ -1074,10 +1074,9 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
 
     # inverted hammer
 
-    if((cluster[5]['Low'] < cluster[4]['Low'] and 
-    cluster[5]['Low'] == min(cluster[5]['Open'], cluster[5]['Close']) and candlestick_cluster[4]['Body']<-0.5) or 
-    (candlestick_cluster[4]['Body']<-0.5 and cluster[5]['Low'] - min(cluster[5]['Open'], cluster[5]['Close']) < cluster[5]['Body']/5) and 
-    (cluster[5]['High'] - max(cluster[5]['Open'], cluster[5]['Close']) >  2*abs(cluster[5]['Open']-cluster[5]['Close'])) ):
+    if(cluster[5]['Low'] < cluster[4]['Low'] and 
+    fuzzified_candlestick_cluster[5]['Fuzzy_Lower']=='NULL' and candlestick_cluster[4]['Body']<-0.5 and (cluster[5]['Low'] - min(cluster[5]['Open'], cluster[5]['Close'])) < cluster[5]['Body']/5 and 
+    (cluster[5]['High'] - max(cluster[5]['Open'], cluster[5]['Close'])) >  2*abs(cluster[5]['Open']-cluster[5]['Close']) ):
 
         if(fuzzified_candlestick_cluster[5]['Fuzzy_Lower']=='NULL' and 
         (fuzzified_candlestick_cluster[5]['Fuzzy_Upper']=='LONG' or fuzzified_candlestick_cluster[5]['Fuzzy_Upper']=='MIDDLE') and  
