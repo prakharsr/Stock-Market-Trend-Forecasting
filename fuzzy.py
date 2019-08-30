@@ -1202,7 +1202,8 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
 
     if(candlestick_cluster[4]['Body']<-0.5 and
     candlestick_cluster[5]['Body']>0.5 and 
-    cluster[4]['Close']==cluster[5]['Close']):
+    ((cluster[4]['Close']-cluster[5]['Close'])/cluster[4]['Close']) <= 0.5 and 
+    ((cluster[4]['Close']-cluster[5]['Close'])/cluster[4]['Close']) >= 0):
 
         if(fuzzified_candlestick_cluster[5]['Fuzzy_Body']=='WHITE_SHORT'):
             meeting_line['Bullish']='LOW'
