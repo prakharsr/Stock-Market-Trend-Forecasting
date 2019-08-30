@@ -1335,8 +1335,8 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
 
     # hanging man
 
-    if((cluster[5]['High'] > cluster[4]['High'] and 
-    cluster[5]['High'] == max(cluster[5]['Open'], cluster[5]['Close'])) or 
+    if(cluster[5]['High'] > cluster[4]['High'] and 
+    fuzzified_candlestick_cluster[5]['Fuzzy_Upper']=='NULL' and 
     (cluster[5]['High'] - max(cluster[5]['Open'], cluster[5]['Close']) < cluster[5]['Body']/5) and 
     (min(cluster[5]['Open'], cluster[5]['Close']) - cluster[5]['Low'] >  2*abs(cluster[5]['Open']-cluster[5]['Close'])) ):
 
@@ -1385,8 +1385,8 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
 
     if(candlestick_cluster[4]['Body']>0.5 and
     candlestick_cluster[5]['Body']>0.5 and 
-    cluster[4]['Close']>=cluster[5]['High'] and 
-    cluster[4]['Open']<=cluster[5]['Low']):
+    cluster[4]['Close']>cluster[5]['High'] and 
+    cluster[4]['Open']<cluster[5]['Low']):
 
         if(fuzzified_candlestick_cluster[4]['Fuzzy_Body']=='WHITE_SHORT'):
             descending_hawk['Bearish']='LOW'      
@@ -1406,8 +1406,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
 
     if(candlestick_cluster[4]['Body']>0.5 and 
     candlestick_cluster[5]['Body']<-0.5 and 
-    abs(cluster[4]['Body'])>2*(abs(cluster[4]['High']-cluster[4]['Open']+abs(cluster[4]['Low']-cluster[4]['Close']))) and 
-    abs(cluster[5]['Body'])>2*(abs(cluster[5]['High']-cluster[5]['Open']+abs(cluster[5]['Low']-cluster[5]['Close']))) and 
+    (fuzzified_candlestick_cluster[4]['Fuzzy_Body']=='WHITE_MIDDLE' or fuzzified_candlestick_cluster[4]['Fuzzy_Body']=='WHITE_LONG') and 
     cluster[5]['Close']<cluster[4]['Low'] and 
     cluster[5]['Open']>cluster[4]['Body']/2):
 
@@ -1511,8 +1510,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
 
     if(candlestick_cluster[4]['Body']>0.5 and 
     candlestick_cluster[5]['Body']<-0.5 and 
-    abs(cluster[4]['Body'])>2*(abs(cluster[4]['High']-cluster[4]['Open']+abs(cluster[4]['Low']-cluster[4]['Close']))) and 
-    abs(cluster[5]['Body'])>2*(abs(cluster[5]['High']-cluster[5]['Open']+abs(cluster[5]['Low']-cluster[5]['Close']))) and 
+    (fuzzified_candlestick_cluster[4]['Fuzzy_Body']=='WHITE_MIDDLE' or fuzzified_candlestick_cluster[4]['Fuzzy_Body']=='WHITE_LONG') and 
     cluster[5]['Open']>cluster[4]['Close'] and 
     cluster[5]['Close']>cluster[4]['Open']):
 
