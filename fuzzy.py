@@ -1,7 +1,11 @@
+# To add a new cell, type '#%%'
+# To add a new markdown cell, type '#%% [markdown]'
+
 import pandas as pd
 import os
 from collections import defaultdict
 
+#membership function
 def fuzzify_candlestick(data):
     
     fuzzified_candlestick_cluster={}
@@ -854,7 +858,20 @@ def fuzzify_candlestick(data):
 
 def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_cluster):
     
-    identified_candlestick={}
+    identified_candlestick = {
+    'Kicking' : 0,
+    'Engulfing' : 0,
+    'Harami' : 0,
+    'Hammer' : 0,
+    'Inverted_Hammer' : 0,
+    'Piercing_Line' : 0,
+    'One_White_Soldier' : 0,
+    'Homing_Pigeon' : 0,
+    'Meeting_Line' : 0,
+    'Hanging_Man' : 0,
+    'Descending_Hawk' : 0,
+    'One_Black_Crow' : 0,
+    'Dark_Cloud_Clover' : 0}
 
     # 2 DAY BULLISH CANDLESTICKS
     kicking={}
@@ -904,7 +921,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             kicking['Bullish']='HOLD'
 
-        identified_candlestick['Kicking']=kicking
+        identified_candlestick['Kicking']=1
 
     #hammer
 
@@ -952,7 +969,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             hammer['Bullish']='HOLD'
 
-        identified_candlestick['Hammer']=hammer
+        identified_candlestick['Hammer']=1
 
     # piercing line
 
@@ -1011,7 +1028,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             piercing_line['Bullish']='HOLD'
 
-        identified_candlestick['Piercing_Line']=piercing_line
+        identified_candlestick['Piercing_Line']=1
 
     # engulfing
 
@@ -1032,7 +1049,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             engulfing['Bullish']='HOLD'
 
-        identified_candlestick['Engulfing']=engulfing
+        identified_candlestick['Engulfing']=1
 
     # harami
 
@@ -1053,7 +1070,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             harami['Bullish']='HOLD'
 
-        identified_candlestick['Harami']=harami      
+        identified_candlestick['Harami']=1      
 
     # inverted hammer
 
@@ -1101,7 +1118,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             inverted_hammer['Bullish']='HOLD'
 
-        identified_candlestick['Inverted_Hammer']=inverted_hammer  
+        identified_candlestick['Inverted_Hammer']=1  
 
     # one white soldier
 
@@ -1160,7 +1177,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             one_white_soldier['Bullish']='HOLD'
 
-        identified_candlestick['One_White_Soldier']=one_white_soldier
+        identified_candlestick['One_White_Soldier']=1
 
     # homing pigeon
 
@@ -1181,7 +1198,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             homing_pigeon['Bullish']='HOLD'
 
-        identified_candlestick['Homing_Pigeon']=homing_pigeon  
+        identified_candlestick['Homing_Pigeon']=1  
 
     # meeting line
 
@@ -1201,7 +1218,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             meeting_line['Bullish']='HOLD'
 
-        identified_candlestick['Meeting_Line']=meeting_line 
+        identified_candlestick['Meeting_Line']=1 
 
 
 
@@ -1248,7 +1265,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             kicking['Bearish']='HOLD'
 
-        identified_candlestick['Kicking']=kicking
+        identified_candlestick['Kicking']=1
 
     # engulfing
 
@@ -1269,7 +1286,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             engulfing['Bearish']='HOLD'
 
-        identified_candlestick['Engulfing']=engulfing
+        identified_candlestick['Engulfing']=1
 
     # harami
 
@@ -1290,7 +1307,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             harami['Bearish']='HOLD'
 
-        identified_candlestick['Harami']=harami 
+        identified_candlestick['Harami']=1 
 
     # meeting line
 
@@ -1310,7 +1327,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             meeting_line['Bearish']='HOLD'
 
-        identified_candlestick['Meeting_Line']=meeting_line 
+        identified_candlestick['Meeting_Line']=1 
 
     # hanging man
 
@@ -1358,7 +1375,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             hanging_man['Bearish']='HOLD'
 
-        identified_candlestick['Hanging_Man']=hanging_man 
+        identified_candlestick['Hanging_Man']=1 
 
     # descending hawk
 
@@ -1379,7 +1396,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             descending_hawk['Bearish']='HOLD'
 
-        identified_candlestick['Descending_Hawk']=descending_hawk 
+        identified_candlestick['Descending_Hawk']=1 
 
     # one black crow 
 
@@ -1484,7 +1501,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             one_black_crow['Bearish']='HOLD'
 
-        identified_candlestick['One_Black_Crow']=one_black_crow
+        identified_candlestick['One_Black_Crow']=1
 
     # dark cloud clover
 
@@ -1589,7 +1606,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
         else:
             dark_cloud_clover['Bearish']='HOLD'
 
-        identified_candlestick['Dark_Cloud_Clover']=dark_cloud_clover
+        identified_candlestick['Dark_Cloud_Clover']=1
 
     return identified_candlestick
 
@@ -1771,7 +1788,21 @@ for index in range(len(datasheet)-6):
         x+=1
     y=6    
 
-identified_candlestick_cluster = {}
+identified_candlestick_cluster = {
+    'Kicking' : 0,
+    'Engulfing' : 0,
+    'Harami' : 0,
+    'Hammer' : 0,
+    'Inverted_Hammer' : 0,
+    'Piercing_Line' : 0,
+    'One_White_Soldier' : 0,
+    'Homing_Pigeon' : 0,
+    'Meeting_Line' : 0,
+    'Hanging_Man' : 0,
+    'Descending_Hawk' : 0,
+    'One_Black_Crow' : 0,
+    'Dark_Cloud_Clover' : 0}
+
 
 for index in range(len(clusters)):
     if(index==0 or index==1):
@@ -1781,14 +1812,47 @@ for index in range(len(clusters)):
     candlestick_cluster=candlestick(cluster)
     fuzzified_candlestick_cluster=fuzzify_candlestick(candlestick_cluster)
     identified_candlestick=identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_cluster)
-    identified_candlestick_cluster[index-2]=identified_candlestick
+    div=divergence(cluster)
+    sr=swing_rejection(cluster)
+#     print(identified_candlestick)
+    if(identified_candlestick['Kicking']!=0):
+        identified_candlestick_cluster['Kicking']+=1
+    if(identified_candlestick['Engulfing']!=0):
+        identified_candlestick_cluster['Engulfing']+=1
+    if(identified_candlestick['Harami']!=0):
+        identified_candlestick_cluster['Harami']+=1
+    if(identified_candlestick['Hammer']!=0):
+        identified_candlestick_cluster['Hammer']+=1
+    if(identified_candlestick['Inverted_Hammer']!=0):
+        identified_candlestick_cluster['Inverted_Hammer']+=1
+    if(identified_candlestick['Piercing_Line']!=0):
+        identified_candlestick_cluster['Piercing_Line']+=1
+    if(identified_candlestick['One_White_Soldier']!=0):
+        identified_candlestick_cluster['One_White_Soldier']+=1
+    if(identified_candlestick['Homing_Pigeon']!=0):
+        identified_candlestick_cluster['Homing_Pigeon']+=1
+    if(identified_candlestick['Meeting_Line']!=0):
+        identified_candlestick_cluster['Meeting_Line']+=1
+    if(identified_candlestick['Hanging_Man']!=0):
+        identified_candlestick_cluster['Hanging_Man']+=1
+    if(identified_candlestick['One_White_Soldier']!=0):
+        identified_candlestick_cluster['One_White_Soldier']+=1
+    if(identified_candlestick['Descending_Hawk']!=0):
+        identified_candlestick_cluster['Descending_Hawk']+=1
+    if(identified_candlestick['One_Black_Crow']!=0):
+        identified_candlestick_cluster['One_Black_Crow']+=1
+    if(identified_candlestick['Dark_Cloud_Clover']!=0):
+        identified_candlestick_cluster['Dark_Cloud_Clover']+=1
+
+# #         identified_candlestick_cluster[index-2]=identified_candlestick
 
 identified_candlestick_cluster
 # cluster=clusters[0]
 # candlestick_cluster=candlestick(cluster)
 # fuzzified_candlestick_cluster=fuzzify_candlestick(candlestick_cluster)
 # identified_candlestick=identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_cluster)
-# identified_candlestick
+
 # candlestick_cluster
 # cluster
 # fuzzified_candlestick_cluster
+
