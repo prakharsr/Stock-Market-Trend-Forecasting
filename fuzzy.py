@@ -975,10 +975,10 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
 
     if(candlestick_cluster[4]['Body']<-0.5 and 
     candlestick_cluster[5]['Body']>0.5 and 
-    abs(cluster[4]['Body'])>2*(abs(cluster[4]['High']-cluster[4]['Open']+abs(cluster[4]['Low']-cluster[4]['Close']))) and 
-    abs(cluster[5]['Body'])>2*(abs(cluster[5]['High']-cluster[5]['Open']+abs(cluster[5]['Low']-cluster[5]['Close']))) and 
     cluster[5]['Open']<cluster[4]['Low'] and 
-    cluster[5]['Close']>cluster[4]['Body']/2):
+    cluster[5]['Close']>cluster[4]['Body']/2 and 
+    cluster[5]['Close']<cluster[4]['Open'] and 
+    (fuzzified_candlestick_cluster[4]['Fuzzy_Body']=='BLACK_MIDDLE' or fuzzified_candlestick_cluster[4]['Fuzzy_Body']=='BLACK_LONG')):
 
         if(fuzzified_candlestick_cluster[5]['Fuzzy_Difopen']=='SHORT' and 
         fuzzified_candlestick_cluster[5]['Fuzzy_Difcentral']=='SHORT' and 
