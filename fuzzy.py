@@ -1181,8 +1181,8 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
 
     if(candlestick_cluster[4]['Body']<-0.5 and
     candlestick_cluster[5]['Body']<-0.5 and 
-    cluster[4]['Open']>=cluster[5]['High'] and 
-    cluster[4]['Close']<=cluster[5]['Low']):
+    cluster[4]['High']>cluster[5]['High'] and 
+    cluster[4]['Low']<cluster[5]['Low']):
 
         if(fuzzified_candlestick_cluster[4]['Fuzzy_Body']=='BLACK_SHORT'):
             homing_pigeon['Bullish']='LOW'      
