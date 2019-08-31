@@ -1,9 +1,41 @@
-# To add a new cell, type '#%%'
-# To add a new markdown cell, type '#%% [markdown]'
-
 import pandas as pd
 import os
+import matplotlib.pyplot as plt 
 from collections import defaultdict
+
+def candlestick(cluster):
+    candlestick_cluster = {}
+    
+    for day in range(len(cluster)):
+        
+        if(day==0):
+            continue
+        upper = 100*(cluster[day]['High'] - max(cluster[day]['Open'], cluster[day]['Close']))/cluster[day]['Open']
+        lower = 100*(min(cluster[day]['Open'], cluster[day]['Close']) - cluster[day]['Low'])/cluster[day]['Open']
+        body = 100*(cluster[day]['Close']- cluster[day]['Open'])/cluster[day]['Close']
+        if(cluster[day]['Low'] <= cluster[day-1]['High']):
+            gap=0
+        else:
+            gap=100*(cluster[day]['Low']- cluster[day-1]['High'])/cluster[day]['Low']
+        trend = 100*(cluster[day]['Close']- cluster[day-1]['Close'])/cluster[day]['Close']
+        if(cluster[day-1]['Low'] <= cluster[day]['Open']):
+            difopen=0
+        else:
+            difopen=100*(cluster[day-1]['Low']- cluster[day]['Open'])/cluster[day-1]['Low']
+        if(cluster[day-1]['High'] >= cluster[day]['Close']):
+            difclose=0
+        else:
+            difclose=100*(cluster[day]['Close']- cluster[day-1]['High'])/cluster[day]['Close']
+        if(cluster[day]['Close'] <= (cluster[day-1]['Open']+cluster[day-1]['Close'])/2):
+            difcentral=0
+        else:
+            difcentral=100*(cluster[day]['Close'] - (cluster[day-1]['Open']+cluster[day-1]['Close'])/2)/cluster[day]['Close']
+        rsi=cluster[day]['RSI']
+        
+        data={'Upper': upper, 'Lower': lower, 'Body': body, 'Gap': gap, 'Trend':trend, 'Difopen': difopen, 'Difclose': difclose, 'Difcentral': difcentral, 'RSI': rsi}
+        candlestick_cluster[day]=data
+        
+    return candlestick_cluster
 
 #membership function
 def fuzzify_candlestick(data):
@@ -1612,42 +1644,8 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
 
     return identified_candlestick
 
-def candlestick(cluster):
-    candlestick_cluster = {}
-    
-    for day in range(len(cluster)):
-        
-        if(day==0):
-            continue
-        upper = 100*(cluster[day]['High'] - max(cluster[day]['Open'], cluster[day]['Close']))/cluster[day]['Open']
-        lower = 100*(min(cluster[day]['Open'], cluster[day]['Close']) - cluster[day]['Low'])/cluster[day]['Open']
-        body = 100*(cluster[day]['Close']- cluster[day]['Open'])/cluster[day]['Close']
-        if(cluster[day]['Low'] <= cluster[day-1]['High']):
-            gap=0
-        else:
-            gap=100*(cluster[day]['Low']- cluster[day-1]['High'])/cluster[day]['Low']
-        trend = 100*(cluster[day]['Close']- cluster[day-1]['Close'])/cluster[day]['Close']
-        if(cluster[day-1]['Low'] <= cluster[day]['Open']):
-            difopen=0
-        else:
-            difopen=100*(cluster[day-1]['Low']- cluster[day]['Open'])/cluster[day-1]['Low']
-        if(cluster[day-1]['High'] >= cluster[day]['Close']):
-            difclose=0
-        else:
-            difclose=100*(cluster[day]['Close']- cluster[day-1]['High'])/cluster[day]['Close']
-        if(cluster[day]['Close'] <= (cluster[day-1]['Open']+cluster[day-1]['Close'])/2):
-            difcentral=0
-        else:
-            difcentral=100*(cluster[day]['Close'] - (cluster[day-1]['Open']+cluster[day-1]['Close'])/2)/cluster[day]['Close']
-        rsi=cluster[day]['RSI']
-        
-        data={'Upper': upper, 'Lower': lower, 'Body': body, 'Gap': gap, 'Trend':trend, 'Difopen': difopen, 'Difclose': difclose, 'Difcentral': difcentral, 'RSI': rsi}
-        candlestick_cluster[day]=data
-        
-    return candlestick_cluster
-
 def divergence(cluster):
-    div=''
+    div='No_Divergence'
     #bullish divergence
     minx=min(cluster[0]['RSI'], 
     cluster[1]['RSI'], 
@@ -1668,7 +1666,7 @@ def divergence(cluster):
             if(cluster[index]['RSI']<30 and x==1 and z==1):
                 y=1
             if(x==1 and y==1):
-                div='BULLISH'
+                div='Bullish_Divergence'
 
     #bearish divergence
     maxx=max(cluster[0]['RSI'], 
@@ -1690,13 +1688,12 @@ def divergence(cluster):
             if(cluster[index]['RSI']>70 and x==1 and z==1):
                 y=1
             if(x==1 and y==1):
-                div='BEARISH'
+                div='Bearish_Divergence'
 
-    d={'Divergence' : div}
-    return(d)
+    return(div)
 
 def swing_rejection(cluster):
-    sr=''
+    sr='No_Swing_Rejection'
     #bullish swing rejection
     maxx=max(cluster[0]['RSI'], 
     cluster[1]['RSI'], 
@@ -1707,6 +1704,7 @@ def swing_rejection(cluster):
     )
     y=0
     x=0
+    l=0
     z=0
     m=0
     i=0
@@ -1716,14 +1714,15 @@ def swing_rejection(cluster):
         if(cluster[index]['RSI']>30 and y==0 and x==0 and m==0 and z==1 and cluster[index]['RSI']!=maxx):
             x=1
             i=index
-        if(cluster[index]['RSI']>30 and x==1 and z==1 and cluster[index]['RSI']>cluster[i]['RSI'] and cluster[index]['RSI']!=maxx):
-            continue
-        else:
+        if(cluster[index]['RSI']>30 and x==1 and z==1 and m==0 and y==0 and cluster[index]['RSI']>cluster[i]['RSI'] and cluster[index]['RSI']!=maxx):
             y=1
-        if(cluster[index]['RSI']>30 and y==1 and x==1 and m==0 and z==1 and cluster[index]['RSI']==maxx):
+            i=index
+        if(cluster[index]['RSI']>30 and x==1 and z==1 and m==0 and y==1 and l==0 and cluster[index]['RSI']<cluster[i]['RSI'] and cluster[index]['RSI']!=maxx):
+            l=1
+        if(cluster[index]['RSI']>30 and y==1 and x==1 and m==0 and z==1 and l==1 and cluster[index]['RSI']==maxx):
             m=1
-        if(x==1 and y==1 and z==1 and m==1):
-            sr='BULLISH'
+        if(x==1 and y==1 and z==1 and m==1 and l==1):
+            sr='Bullish_Swing_Rejection'
 
     #bearish swing rejection
     minx=min(cluster[0]['RSI'], 
@@ -1734,6 +1733,7 @@ def swing_rejection(cluster):
     cluster[5]['RSI'],
     )
     y=0
+    l=0
     x=0
     z=0
     m=0
@@ -1744,19 +1744,18 @@ def swing_rejection(cluster):
         if(cluster[index]['RSI']<70 and y==0 and x==0 and m==0 and z==1 and cluster[index]['RSI']!=minx):
             x=1
             i=index
-        if(cluster[index]['RSI']<70 and x==1 and z==1 and cluster[index]['RSI']<cluster[i]['RSI'] and cluster[index]['RSI']!=minx):
-            continue
-        else:
+        if(cluster[index]['RSI']<70 and x==1 and z==1 and m==0 and y==0 and cluster[index]['RSI']<cluster[i]['RSI'] and cluster[index]['RSI']!=minx):
             y=1
-        if(cluster[index]['RSI']<70 and y==1 and x==1 and m==0 and z==1 and cluster[index]['RSI']==minx):
+            i=index
+        if(cluster[index]['RSI']<70 and x==1 and z==1 and m==0 and y==1 and l==0 and cluster[index]['RSI']>cluster[i]['RSI'] and cluster[index]['RSI']!=minx):
+            l=1
+        if(cluster[index]['RSI']<70 and y==1 and x==1 and m==0 and z==1 and l==1 and cluster[index]['RSI']==minx):
             m=1
-        if(x==1 and y==1 and z==1 and m==1):
-            sr='BEARISH'
+        if(x==1 and y==1 and z==1 and m==1 and l==1):
+            sr='Bearish_Swing_Rejection'
 
-    s={'Swing_Rejection' : sr}
-    return(s)
+    return(sr)
 
-        
 # MAIN PROGRAM
 
 data = pd.read_csv("bse_data_with_rsi.csv")
@@ -1811,9 +1810,13 @@ count_of_identified_candlestick_cluster = {
     'One_Black_Crow' : 0,
     'Dark_Cloud_Clover' : 0}
 
-identified_candlestick_cluster=defaultdict(list)
+
+div_count=0
+sr_count=0
 
 for index in range(len(clusters)):
+    
+    identified_candlestick_cluster=""
     
     cluster=clusters[index]    
     candlestick_cluster=candlestick(cluster)
@@ -1824,71 +1827,71 @@ for index in range(len(clusters)):
     
     if(identified_candlestick['Kicking_Bullish']!=0):
         count_of_identified_candlestick_cluster['Kicking_Bullish']+=1
-        identified_candlestick_cluster[index].append('Kicking_Bullish')
+        identified_candlestick_cluster+="Kicking_Bullish "
 
     if(identified_candlestick['Engulfing_Bullish']!=0):
         count_of_identified_candlestick_cluster['Engulfing_Bullish']+=1
-        identified_candlestick_cluster[index].append('Engulfing_Bullish')
+        identified_candlestick_cluster+="Engulfing_Bullish "
 
     if(identified_candlestick['Harami_Bullish']!=0):
         count_of_identified_candlestick_cluster['Harami_Bullish']+=1
-        identified_candlestick_cluster[index].append('Harami_Bullish')
+        identified_candlestick_cluster+="Harami_Bullish "
 
     if(identified_candlestick['Meeting_Line_Bullish']!=0):
         count_of_identified_candlestick_cluster['Meeting_Line_Bullish']+=1
-        identified_candlestick_cluster[index].append('Meeting_Line_Bullish')
+        identified_candlestick_cluster+="Meeting_Line_Bullish "
 
     if(identified_candlestick['Kicking_Bearish']!=0):
         count_of_identified_candlestick_cluster['Kicking_Bearish']+=1
-        identified_candlestick_cluster[index].append('Kicking_Bearish')
+        identified_candlestick_cluster+="Kicking_Bearish "
 
     if(identified_candlestick['Engulfing_Bearish']!=0):
         count_of_identified_candlestick_cluster['Engulfing_Bearish']+=1
-        identified_candlestick_cluster[index].append('Engulfing_Bearish')
+        identified_candlestick_cluster+="Engulfing_Bearish "
 
     if(identified_candlestick['Harami_Bearish']!=0):
         count_of_identified_candlestick_cluster['Harami_Bearish']+=1
-        identified_candlestick_cluster[index].append('Harami_Bearish')
+        identified_candlestick_cluster+="Harami_Bearish "
 
     if(identified_candlestick['Meeting_Line_Bearish']!=0):
         count_of_identified_candlestick_cluster['Meeting_Line_Bearish']+=1
-        identified_candlestick_cluster[index].append('Meeting_Line_Bearish')
+        identified_candlestick_cluster+="Meeting_Line_Bearish "
 
     if(identified_candlestick['Hammer']!=0):
         count_of_identified_candlestick_cluster['Hammer']+=1
-        identified_candlestick_cluster[index].append('Hammer')
+        identified_candlestick_cluster+="Hammer "
 
     if(identified_candlestick['Inverted_Hammer']!=0):
         count_of_identified_candlestick_cluster['Inverted_Hammer']+=1
-        identified_candlestick_cluster[index].append('Inverted_Hammer')
+        identified_candlestick_cluster+="Inverted_Hammer "
 
     if(identified_candlestick['Piercing_Line']!=0):
         count_of_identified_candlestick_cluster['Piercing_Line']+=1
-        identified_candlestick_cluster[index].append('Piercing_Line')
+        identified_candlestick_cluster+="Piercing_Line "
 
     if(identified_candlestick['Homing_Pigeon']!=0):
         count_of_identified_candlestick_cluster['Homing_Pigeon']+=1
-        identified_candlestick_cluster[index].append('Homing_Pigeon')
+        identified_candlestick_cluster+="Homing_Pigeon "
 
     if(identified_candlestick['Hanging_Man']!=0):
         count_of_identified_candlestick_cluster['Hanging_Man']+=1
-        identified_candlestick_cluster[index].append('Hanging_Man')
+        identified_candlestick_cluster+="Hanging_Man "
 
     if(identified_candlestick['One_White_Soldier']!=0):
         count_of_identified_candlestick_cluster['One_White_Soldier']+=1
-        identified_candlestick_cluster[index].append('One_White_Soldier')
+        identified_candlestick_cluster+="One_White_Soldier "
 
     if(identified_candlestick['Descending_Hawk']!=0):
         count_of_identified_candlestick_cluster['Descending_Hawk']+=1
-        identified_candlestick_cluster[index].append('Descending_Hawk')
+        identified_candlestick_cluster+="Descending_Hawk "
 
     if(identified_candlestick['One_Black_Crow']!=0):
         count_of_identified_candlestick_cluster['One_Black_Crow']+=1
-        identified_candlestick_cluster[index].append('One_Black_Crow')
+        identified_candlestick_cluster+="One_Black_Crow "
         
     if(identified_candlestick['Dark_Cloud_Clover']!=0):
         count_of_identified_candlestick_cluster['Dark_Cloud_Clover']+=1
-        identified_candlestick_cluster[index].append('Dark_Cloud_Clover')
+        identified_candlestick_cluster+="Dark_Cloud_Clover "
     
     if(
     identified_candlestick['Kicking_Bullish'] == 0 and 
@@ -1908,19 +1911,31 @@ for index in range(len(clusters)):
     identified_candlestick['Descending_Hawk'] == 0 and 
     identified_candlestick['One_Black_Crow'] == 0 and 
     identified_candlestick['Dark_Cloud_Clover'] == 0 ):
-        identified_candlestick_cluster[index].append('No_Candlestick_Found')
+        identified_candlestick_cluster+="No_Candlestick_Found "
         
-identified_candlestick_cluster
+    
 
+    if(div=='Bullish_Divergence'):
+        div_count+=1
+    if(div=='Bearish_Divergence'):
+        div_count+=1
+    if(sr=='Bullish_Swing_Rejection'):
+        sr_count+=1
+    if(sr=='Bearish_Swing_Rejection'):
+        sr_count+=1
 
-identified_candlestick_cluster
-# count_of_identified_candlestick_cluster
-# cluster=clusters[0]
-# candlestick_cluster=candlestick(cluster)
-# fuzzified_candlestick_cluster=fuzzify_candlestick(candlestick_cluster)
-# identified_candlestick=identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_cluster)
+    f1=open('./doc.txt', 'a+')
 
-# candlestick_cluster
-# cluster
-# fuzzified_candlestick_cluster
+    f1.write(fuzzified_candlestick_cluster[1]['Fuzzy_Trend'] + " " +
+          fuzzified_candlestick_cluster[2]['Fuzzy_Trend'] + " " + 
+          fuzzified_candlestick_cluster[3]['Fuzzy_Trend'] + " " + 
+          identified_candlestick_cluster + " " + 
+          fuzzified_candlestick_cluster[1]['RSI'] + " " + 
+          fuzzified_candlestick_cluster[2]['RSI'] + " " + 
+          fuzzified_candlestick_cluster[3]['RSI'] + " " + 
+          div + " " +
+          sr + "\n"
+          )
 
+f1.close()
+# identified_candlestick_cluster
