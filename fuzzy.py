@@ -1792,7 +1792,7 @@ for index in range(len(datasheet)-6):
         x+=1
     y=6    
 
-identified_candlestick_cluster = {
+count_of_identified_candlestick_cluster = {
 'Kicking_Bullish' : 0,
     'Kicking_Bearish' : 0,
     'Engulfing_Bullish' : 0,
@@ -1811,58 +1811,110 @@ identified_candlestick_cluster = {
     'One_Black_Crow' : 0,
     'Dark_Cloud_Clover' : 0}
 
+identified_candlestick_cluster=defaultdict(list)
 
 for index in range(len(clusters)):
-    if(index==0 or index==1):
-        continue
-
+    
     cluster=clusters[index]    
     candlestick_cluster=candlestick(cluster)
     fuzzified_candlestick_cluster=fuzzify_candlestick(candlestick_cluster)
     identified_candlestick=identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_cluster)
     div=divergence(cluster)
     sr=swing_rejection(cluster)
-#     print(identified_candlestick)
+    
     if(identified_candlestick['Kicking_Bullish']!=0):
-        identified_candlestick_cluster['Kicking_Bullish']+=1
-    if(identified_candlestick['Engulfing_Bullish']!=0):
-        identified_candlestick_cluster['Engulfing_Bullish']+=1
-    if(identified_candlestick['Harami_Bullish']!=0):
-        identified_candlestick_cluster['Harami_Bullish']+=1
-    if(identified_candlestick['Meeting_Line_Bullish']!=0):
-        identified_candlestick_cluster['Meeting_Line_Bullish']+=1
-    if(identified_candlestick['Kicking_Bearish']!=0):
-        identified_candlestick_cluster['Kicking_Bearish']+=1
-    if(identified_candlestick['Engulfing_Bearish']!=0):
-        identified_candlestick_cluster['Engulfing_Bearish']+=1
-    if(identified_candlestick['Harami_Bearish']!=0):
-        identified_candlestick_cluster['Harami_Bearish']+=1
-    if(identified_candlestick['Meeting_Line_Bearish']!=0):
-        identified_candlestick_cluster['Meeting_Line_Bearish']+=1
-    if(identified_candlestick['Hammer']!=0):
-        identified_candlestick_cluster['Hammer']+=1
-    if(identified_candlestick['Inverted_Hammer']!=0):
-        identified_candlestick_cluster['Inverted_Hammer']+=1
-    if(identified_candlestick['Piercing_Line']!=0):
-        identified_candlestick_cluster['Piercing_Line']+=1
-    if(identified_candlestick['One_White_Soldier']!=0):
-        identified_candlestick_cluster['One_White_Soldier']+=1
-    if(identified_candlestick['Homing_Pigeon']!=0):
-        identified_candlestick_cluster['Homing_Pigeon']+=1
-    if(identified_candlestick['Hanging_Man']!=0):
-        identified_candlestick_cluster['Hanging_Man']+=1
-    if(identified_candlestick['One_White_Soldier']!=0):
-        identified_candlestick_cluster['One_White_Soldier']+=1
-    if(identified_candlestick['Descending_Hawk']!=0):
-        identified_candlestick_cluster['Descending_Hawk']+=1
-    if(identified_candlestick['One_Black_Crow']!=0):
-        identified_candlestick_cluster['One_Black_Crow']+=1
-    if(identified_candlestick['Dark_Cloud_Clover']!=0):
-        identified_candlestick_cluster['Dark_Cloud_Clover']+=1
+        count_of_identified_candlestick_cluster['Kicking_Bullish']+=1
+        identified_candlestick_cluster[index].append('Kicking_Bullish')
 
-# #         identified_candlestick_cluster[index-2]=identified_candlestick
+    if(identified_candlestick['Engulfing_Bullish']!=0):
+        count_of_identified_candlestick_cluster['Engulfing_Bullish']+=1
+        identified_candlestick_cluster[index].append('Engulfing_Bullish')
+
+    if(identified_candlestick['Harami_Bullish']!=0):
+        count_of_identified_candlestick_cluster['Harami_Bullish']+=1
+        identified_candlestick_cluster[index].append('Harami_Bullish')
+
+    if(identified_candlestick['Meeting_Line_Bullish']!=0):
+        count_of_identified_candlestick_cluster['Meeting_Line_Bullish']+=1
+        identified_candlestick_cluster[index].append('Meeting_Line_Bullish')
+
+    if(identified_candlestick['Kicking_Bearish']!=0):
+        count_of_identified_candlestick_cluster['Kicking_Bearish']+=1
+        identified_candlestick_cluster[index].append('Kicking_Bearish')
+
+    if(identified_candlestick['Engulfing_Bearish']!=0):
+        count_of_identified_candlestick_cluster['Engulfing_Bearish']+=1
+        identified_candlestick_cluster[index].append('Engulfing_Bearish')
+
+    if(identified_candlestick['Harami_Bearish']!=0):
+        count_of_identified_candlestick_cluster['Harami_Bearish']+=1
+        identified_candlestick_cluster[index].append('Harami_Bearish')
+
+    if(identified_candlestick['Meeting_Line_Bearish']!=0):
+        count_of_identified_candlestick_cluster['Meeting_Line_Bearish']+=1
+        identified_candlestick_cluster[index].append('Meeting_Line_Bearish')
+
+    if(identified_candlestick['Hammer']!=0):
+        count_of_identified_candlestick_cluster['Hammer']+=1
+        identified_candlestick_cluster[index].append('Hammer')
+
+    if(identified_candlestick['Inverted_Hammer']!=0):
+        count_of_identified_candlestick_cluster['Inverted_Hammer']+=1
+        identified_candlestick_cluster[index].append('Inverted_Hammer')
+
+    if(identified_candlestick['Piercing_Line']!=0):
+        count_of_identified_candlestick_cluster['Piercing_Line']+=1
+        identified_candlestick_cluster[index].append('Piercing_Line')
+
+    if(identified_candlestick['Homing_Pigeon']!=0):
+        count_of_identified_candlestick_cluster['Homing_Pigeon']+=1
+        identified_candlestick_cluster[index].append('Homing_Pigeon')
+
+    if(identified_candlestick['Hanging_Man']!=0):
+        count_of_identified_candlestick_cluster['Hanging_Man']+=1
+        identified_candlestick_cluster[index].append('Hanging_Man')
+
+    if(identified_candlestick['One_White_Soldier']!=0):
+        count_of_identified_candlestick_cluster['One_White_Soldier']+=1
+        identified_candlestick_cluster[index].append('One_White_Soldier')
+
+    if(identified_candlestick['Descending_Hawk']!=0):
+        count_of_identified_candlestick_cluster['Descending_Hawk']+=1
+        identified_candlestick_cluster[index].append('Descending_Hawk')
+
+    if(identified_candlestick['One_Black_Crow']!=0):
+        count_of_identified_candlestick_cluster['One_Black_Crow']+=1
+        identified_candlestick_cluster[index].append('One_Black_Crow')
+        
+    if(identified_candlestick['Dark_Cloud_Clover']!=0):
+        count_of_identified_candlestick_cluster['Dark_Cloud_Clover']+=1
+        identified_candlestick_cluster[index].append('Dark_Cloud_Clover')
+    
+    if(
+    identified_candlestick['Kicking_Bullish'] == 0 and 
+    identified_candlestick['Kicking_Bearish'] == 0 and 
+    identified_candlestick['Engulfing_Bullish'] == 0 and 
+    identified_candlestick['Engulfing_Bearish'] == 0 and 
+    identified_candlestick['Harami_Bullish'] == 0 and 
+    identified_candlestick['Harami_Bearish'] == 0 and 
+    identified_candlestick['Meeting_Line_Bullish'] == 0 and 
+    identified_candlestick['Meeting_Line_Bearish'] == 0 and 
+    identified_candlestick['Hammer'] == 0 and 
+    identified_candlestick['Inverted_Hammer'] == 0 and 
+    identified_candlestick['Piercing_Line'] == 0 and 
+    identified_candlestick['One_White_Soldier'] == 0 and 
+    identified_candlestick['Homing_Pigeon'] == 0 and 
+    identified_candlestick['Hanging_Man'] == 0 and 
+    identified_candlestick['Descending_Hawk'] == 0 and 
+    identified_candlestick['One_Black_Crow'] == 0 and 
+    identified_candlestick['Dark_Cloud_Clover'] == 0 ):
+        identified_candlestick_cluster[index].append('No_Candlestick_Found')
+        
+identified_candlestick_cluster
+
 
 identified_candlestick_cluster
+# count_of_identified_candlestick_cluster
 # cluster=clusters[0]
 # candlestick_cluster=candlestick(cluster)
 # fuzzified_candlestick_cluster=fuzzify_candlestick(candlestick_cluster)
