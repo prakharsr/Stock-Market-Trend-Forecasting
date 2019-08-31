@@ -1814,7 +1814,7 @@ count_of_identified_candlestick_cluster = {
 div_count=0
 sr_count=0
 
-for index in range(len(clusters)):
+for index in range(len(clusters)-1):
     
     identified_candlestick_cluster=""
     
@@ -1923,10 +1923,247 @@ for index in range(len(clusters)):
         sr_count+=1
     if(sr=='Bearish_Swing_Rejection'):
         sr_count+=1
+        
+    Previous_Trend=''
+    tr1=candlestick_cluster[1]['Trend']
+    tr2=candlestick_cluster[2]['Trend']
+    tr3=candlestick_cluster[3]['Trend']
+    x=(tr1+tr2+tr3)/3
+    
+    fuzzy_trend={}
 
-    f1=open('./doc.txt', 'a+')
+    if(x<=-5):
+        fuzzy_trend['LONG_BEARISH']=1
+        fuzzy_trend['MIDDLE_BEARISH']=0
+        fuzzy_trend['SHORT_BEARISH']=0
+        fuzzy_trend['NULL']=0
+        fuzzy_trend['SHORT_BULLISH']=0
+        fuzzy_trend['MIDDLE_BULLISH']=0
+        fuzzy_trend['LONG_BULLISH']=0
 
-    f1.write(fuzzified_candlestick_cluster[1]['Fuzzy_Trend'] + " " +
+        Previous_Trend='BEARISH'          
+
+    if(x>-5 and x<=-3.5):
+        fuzzy_trend['LONG_BEARISH']=(-2*x-7)/3
+        fuzzy_trend['MIDDLE_BEARISH']=(2*x+10)/3
+        fuzzy_trend['SHORT_BEARISH']=0
+        fuzzy_trend['NULL']=0
+        fuzzy_trend['SHORT_BULLISH']=0
+        fuzzy_trend['MIDDLE_BULLISH']=0
+        fuzzy_trend['LONG_BULLISH']=0
+
+        if(max(fuzzy_trend['LONG_BEARISH'],
+        fuzzy_trend['MIDDLE_BEARISH'],
+        fuzzy_trend['SHORT_BEARISH'],
+        fuzzy_trend['NULL'],
+        fuzzy_trend['SHORT_BULLISH'],
+        fuzzy_trend['MIDDLE_BULLISH'],
+        fuzzy_trend['LONG_BULLISH'])==fuzzy_trend['LONG_BEARISH']):
+            Previous_Trend='BEARISH'
+
+        else:
+            Previous_Trend='BEARISH'
+
+    if(x>-3.5 and x<=-2.5):
+        fuzzy_trend['LONG_BEARISH']=0
+        fuzzy_trend['MIDDLE_BEARISH']=1
+        fuzzy_trend['SHORT_BEARISH']=0
+        fuzzy_trend['NULL']=0
+        fuzzy_trend['SHORT_BULLISH']=0
+        fuzzy_trend['MIDDLE_BULLISH']=0
+        fuzzy_trend['LONG_BULLISH']=0
+
+        Previous_Trend='BEARISH'
+
+    if(x>-2.5 and x<=-1.5):
+        fuzzy_trend['LONG_BEARISH']=0
+        fuzzy_trend['MIDDLE_BEARISH']=-x-1.5
+        fuzzy_trend['SHORT_BEARISH']=x+2.5
+        fuzzy_trend['NULL']=0
+        fuzzy_trend['SHORT_BULLISH']=0
+        fuzzy_trend['MIDDLE_BULLISH']=0
+        fuzzy_trend['LONG_BULLISH']=0
+
+        if(max(fuzzy_trend['LONG_BEARISH'],
+        fuzzy_trend['MIDDLE_BEARISH'],
+        fuzzy_trend['SHORT_BEARISH'],
+        fuzzy_trend['NULL'],
+        fuzzy_trend['SHORT_BULLISH'],
+        fuzzy_trend['MIDDLE_BULLISH'],
+        fuzzy_trend['LONG_BULLISH'])==fuzzy_trend['MIDDLE_BEARISH']):
+            Previous_Trend='BEARISH'
+
+        else:
+            Previous_Trend='BEARISH'
+
+    if(x>-1.5 and x<=-0.5):
+        fuzzy_trend['LONG_BEARISH']=0
+        fuzzy_trend['MIDDLE_BEARISH']=0
+        fuzzy_trend['SHORT_BEARISH']=1
+        fuzzy_trend['NULL']=0
+        fuzzy_trend['SHORT_BULLISH']=0
+        fuzzy_trend['MIDDLE_BULLISH']=0
+        fuzzy_trend['LONG_BULLISH']=0
+
+        Previous_Trend='BEARISH'
+
+    if(x>-0.5 and x<=0):
+        fuzzy_trend['LONG_BEARISH']=0
+        fuzzy_trend['MIDDLE_BEARISH']=0
+        fuzzy_trend['SHORT_BEARISH']=-2*x
+        fuzzy_trend['NULL']=2*x
+        fuzzy_trend['SHORT_BULLISH']=0
+        fuzzy_trend['MIDDLE_BULLISH']=0
+        fuzzy_trend['LONG_BULLISH']=0
+
+        if(max(fuzzy_trend['LONG_BEARISH'],
+        fuzzy_trend['MIDDLE_BEARISH'],
+        fuzzy_trend['SHORT_BEARISH'],
+        fuzzy_trend['NULL'],
+        fuzzy_trend['SHORT_BULLISH'],
+        fuzzy_trend['MIDDLE_BULLISH'],
+        fuzzy_trend['LONG_BULLISH'])==fuzzy_trend['SHORT_BEARISH']):
+            Previous_Trend='BEARISH'
+
+        else:
+            Previous_Trend='NEUTRAL'
+
+    if(x>0 and x<=0.5):
+        fuzzy_trend['LONG_BEARISH']=0
+        fuzzy_trend['MIDDLE_BEARISH']=0
+        fuzzy_trend['SHORT_BEARISH']=0
+        fuzzy_trend['NULL']=-2*x+1
+        fuzzy_trend['SHORT_BULLISH']=2*x
+        fuzzy_trend['MIDDLE_BULLISH']=0
+        fuzzy_trend['LONG_BULLISH']=0
+
+        if(max(fuzzy_trend['LONG_BEARISH'],
+        fuzzy_trend['MIDDLE_BEARISH'],
+        fuzzy_trend['SHORT_BEARISH'],
+        fuzzy_trend['NULL'],
+        fuzzy_trend['SHORT_BULLISH'],
+        fuzzy_trend['MIDDLE_BULLISH'],
+        fuzzy_trend['LONG_BULLISH'])==fuzzy_trend['SHORT_BULLISH']):
+            Previous_Trend='BULLISH'
+
+        else:
+            Previous_Trend='NEUTRAL'
+
+    if(x>0.5 and x<=1.5):
+        fuzzy_trend['LONG_BEARISH']=0
+        fuzzy_trend['MIDDLE_BEARISH']=0
+        fuzzy_trend['SHORT_BEARISH']=0
+        fuzzy_trend['NULL']=0
+        fuzzy_trend['SHORT_BULLISH']=1
+        fuzzy_trend['MIDDLE_BULLISH']=0
+        fuzzy_trend['LONG_BULLISH']=0
+
+        Previous_Trend='BULLISH'
+
+    if(x>1.5 and x<=2.5):
+        fuzzy_trend['LONG_BEARISH']=0
+        fuzzy_trend['MIDDLE_BEARISH']=0
+        fuzzy_trend['SHORT_BEARISH']=0
+        fuzzy_trend['NULL']=0
+        fuzzy_trend['SHORT_BULLISH']=-x + 2.5
+        fuzzy_trend['MIDDLE_BULLISH']=x - 1.5
+        fuzzy_trend['LONG_BULLISH']=0
+
+        if(max(fuzzy_trend['LONG_BEARISH'],
+        fuzzy_trend['MIDDLE_BEARISH'],
+        fuzzy_trend['SHORT_BEARISH'],
+        fuzzy_trend['NULL'],
+        fuzzy_trend['SHORT_BULLISH'],
+        fuzzy_trend['MIDDLE_BULLISH'],
+        fuzzy_trend['LONG_BULLISH'])==fuzzy_trend['SHORT_BULLISH']):
+            Previous_Trend='BULLISH'
+
+        else:
+            Previous_Trend='BULLISH'
+
+    if(x>2.5 and x<=3.5):
+        fuzzy_trend['LONG_BEARISH']=0
+        fuzzy_trend['MIDDLE_BEARISH']=0
+        fuzzy_trend['SHORT_BEARISH']=0
+        fuzzy_trend['NULL']=0
+        fuzzy_trend['SHORT_BULLISH']=0
+        fuzzy_trend['MIDDLE_BULLISH']=1
+        fuzzy_trend['LONG_BULLISH']=0
+
+        Previous_Trend='BULLISH'
+
+    if(x>3.5 and x<=5):
+        fuzzy_trend['LONG_BEARISH']=0
+        fuzzy_trend['MIDDLE_BEARISH']=0
+        fuzzy_trend['SHORT_BEARISH']=0
+        fuzzy_trend['NULL']=0
+        fuzzy_trend['SHORT_BULLISH']=0
+        fuzzy_trend['MIDDLE_BULLISH']=(-2*x+10)/3
+        fuzzy_trend['LONG_BULLISH']=(2*x-7)/3
+
+        if(max(fuzzy_trend['LONG_BEARISH'],
+        fuzzy_trend['MIDDLE_BEARISH'],
+        fuzzy_trend['SHORT_BEARISH'],
+        fuzzy_trend['NULL'],
+        fuzzy_trend['SHORT_BULLISH'],
+        fuzzy_trend['MIDDLE_BULLISH'],
+        fuzzy_trend['LONG_BULLISH'])==fuzzy_trend['LONG_BULLISH']):
+            Previous_Trend='BULLISH'
+
+        else:
+            Previous_Trend='BULLISH'
+
+    if(x>5):
+        fuzzy_trend['LONG_BEARISH']=0
+        fuzzy_trend['MIDDLE_BEARISH']=0
+        fuzzy_trend['SHORT_BEARISH']=0
+        fuzzy_trend['NULL']=0
+        fuzzy_trend['SHORT_BULLISH']=0
+        fuzzy_trend['MIDDLE_BULLISH']=0
+        fuzzy_trend['LONG_BULLISH']=1
+
+        Previous_Trend='BULLISH'
+        
+    r1=candlestick_cluster[1]['RSI']
+    r2=candlestick_cluster[2]['RSI']
+    r3=candlestick_cluster[3]['RSI']
+    y=(r1+r2+r3)/3
+
+    RSI_Trend=''
+    
+    if(y<=55 and y>45):
+            RSI_Trend='NULL'
+    if(y<=65 and y>55):
+        RSI_Trend='OVERBOUGHT'
+    if(y<=75 and y>65):
+        RSI_Trend='OVERBOUGHT'
+    if(y<=85 and y>75):
+        RSI_Trend='OVERBOUGHT'
+    if(y<=100 and y>85):
+        RSI_Trend='OVERBOUGHT'
+    if(y<=45 and y>35):
+        RSI_Trend='OVERSOLD'
+    if(y<=35 and y>25):
+        RSI_Trend='OVERSOLD'
+    if(y<=25 and y>=0):
+        RSI_Trend='OVERSOLD'
+    if(y<=85 and y>75):
+        RSI_Trend='OVERSOLD'
+    
+#     print(fuzzified_candlestick_cluster[1]['Fuzzy_Trend'], 
+#           fuzzified_candlestick_cluster[2]['Fuzzy_Trend'], 
+#           fuzzified_candlestick_cluster[3]['Fuzzy_Trend'], 
+#           identified_candlestick_cluster, 
+#           fuzzified_candlestick_cluster[1]['RSI'], 
+#           fuzzified_candlestick_cluster[2]['RSI'], 
+#           fuzzified_candlestick_cluster[3]['RSI'], 
+#           div,
+#           sr
+#           )
+# identified_candlestick_cluster
+    f2=open('./doc.txt', 'a+')
+
+    f2.write(fuzzified_candlestick_cluster[1]['Fuzzy_Trend'] + " " +
           fuzzified_candlestick_cluster[2]['Fuzzy_Trend'] + " " + 
           fuzzified_candlestick_cluster[3]['Fuzzy_Trend'] + " " + 
           identified_candlestick_cluster + " " + 
@@ -1936,6 +2173,15 @@ for index in range(len(clusters)):
           div + " " +
           sr + "\n"
           )
+    
+    f1=open('./doc2.txt', 'a+')
+    
+    f1.write(Previous_Trend + " " + 
+    identified_candlestick_cluster + " " + 
+    RSI_Trend + " " + 
+    div + " " +
+    sr + "\n"
+    )
 
 f1.close()
-# identified_candlestick_cluster
+f2.close()
