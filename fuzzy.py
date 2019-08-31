@@ -1692,7 +1692,8 @@ def divergence(cluster):
             if(x==1 and y==1):
                 div='BEARISH'
 
-    return(div)
+    d={'Divergence' : div}
+    return(d)
 
 def swing_rejection(cluster):
     sr=''
@@ -1752,7 +1753,8 @@ def swing_rejection(cluster):
         if(x==1 and y==1 and z==1 and m==1):
             sr='BEARISH'
 
-    return(sr)
+    s={'Swing_Rejection' : sr}
+    return(s)
 
         
 # MAIN PROGRAM
