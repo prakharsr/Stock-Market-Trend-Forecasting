@@ -1,5 +1,7 @@
 import pandas as pd
 import os
+from math import log
+from math import sqrt
 import matplotlib.pyplot as plt 
 from collections import defaultdict
 
@@ -1756,9 +1758,162 @@ def swing_rejection(cluster):
 
     return(sr)
 
+def Query(Previous_Trend, identified_candlestick_cluster, RSI_Trend, div, sr):
+    tf1 = 0
+    tf2 = 0
+    tf3 = 0
+    tf4 = 0
+    tf5 = 0
+    tf6 = 0
+    tf7 = 0
+    tf8 = 0
+    tf9 = 0
+    tf10 = 0
+    tf11 = 0
+    tf12 = 0
+    tf13 = 0
+    tf14 = 0
+    tf15 = 0
+    tf16 = 0
+    tf17 = 0
+
+    f1 = open(os.getcwd()+"/documents/BULLISH.txt", "r")
+    f2 = open(os.getcwd()+"/documents/BEARISH.txt", "r")
+    f3 = open(os.getcwd()+"/documents/NEUTRAL.txt", "r")
+
+    for x in f1:
+        prtr, cs, rsitr, divergence, swingrejection = x.strip().split(' ')
+        if(prtr == Previous_Trend):
+            tf1 = tf1+1
+        if(cs == identified_candlestick_cluster):
+            tf2 = tf2+1
+        if(rsitr == RSI_Trend):
+            tf3 = tf3+1
+        if(divergence == div):
+            tf4 = tf4+1
+        if(swingrejection == sr):
+            tf5 = tf5+1
+
+
+    for x in f2:
+        prtr, cs, rsitr, divergence, swingrejection = x.strip().split(' ')
+        if(prtr == Previous_Trend):
+            tf6 = tf6+1
+        if(cs == identified_candlestick_cluster):
+            tf7 = tf7+1
+        if(rsitr == RSI_Trend):
+            tf8 = tf8+1
+        if(divergence == div):
+            tf9 = tf9+1
+        if(swingrejection == sr):
+            tf10 = tf10+1
+
+
+    for x in f3:
+        prtr, cs, rsitr, divergence, swingrejection = x.strip().split(' ')
+        if(prtr == Previous_Trend):
+            tf11 = tf11+1
+        if(cs == identified_candlestick_cluster):
+            tf12 = tf12+1
+        if(rsitr == RSI_Trend):
+            tf13 = tf13+1
+        if(divergence == div):
+            tf14 = tf14+1
+        if(swingrejection == sr):
+            tf15 = tf15+1
+
+    idf1 = log((41483/(1+tf6+tf11)),10)
+    idf2 = log((41483/(1+tf7+tf12)),10)
+    idf3 = log((41483/(1+tf8+tf13)),10)
+    idf4 = log((41483/(1+tf9+tf14)),10)
+    idf5 = log((41483/(1+tf10+tf15)),10)
+    idf6 = log((41483/(1+tf11+tf1)),10)
+    idf7 = log((41483/(1+tf2+tf12)),10)
+    idf8 = log((41483/(1+tf13+tf3)),10)
+    idf9 = log((41483/(1+tf4+tf14)),10)
+    idf10 = log((41483/(1+tf15+tf5)),10)
+    idf11 = log((41483/(1+tf6+tf1)),10)
+    idf12 = log((41483/(1+tf7+tf2)),10)
+    idf13 = log((41483/(1+tf8+tf3)),10)
+    idf14 = log((41483/(1+tf9+tf4)),10)
+    idf15 = log((41483/(1+tf10+tf5)),10)
+
+    idf1l = idf1/sqrt(pow(idf1,2)+pow(idf6,2)+pow(idf11,2))
+    idf2l = idf2/sqrt(pow(idf2,2)+pow(idf7,2)+pow(idf12,2))
+    idf3l = idf3/sqrt(pow(idf3,2)+pow(idf8,2)+pow(idf13,2))
+    idf4l = idf4/sqrt(pow(idf4,2)+pow(idf9,2)+pow(idf14,2))
+    idf5l = idf5/sqrt(pow(idf5,2)+pow(idf10,2)+pow(idf15,2))
+    idf6l = idf6/sqrt(pow(idf6,2)+pow(idf11,2)+pow(idf1,2))
+    idf7l = idf7/sqrt(pow(idf7,2)+pow(idf12,2)+pow(idf12,2))
+    idf8l = idf8/sqrt(pow(idf8,2)+pow(idf13,2)+pow(idf3,2))
+    idf9l = idf9/sqrt(pow(idf9,2)+pow(idf14,2)+pow(idf14,2))
+    idf10l = idf10/sqrt(pow(idf10,2)+pow(idf15,2)+pow(idf5,2))
+    idf11l = idf11/sqrt(pow(idf11,2)+pow(idf6,2)+pow(idf1,2))
+    idf12l = idf12/sqrt(pow(idf12,2)+pow(idf7,2)+pow(idf2,2))
+    idf13l = idf13/sqrt(pow(idf13,2)+pow(idf8,2)+pow(idf3,2))
+    idf14l = idf14/sqrt(pow(idf14,2)+pow(idf9,2)+pow(idf4,2))
+    idf15l = idf15/sqrt(pow(idf15,2)+pow(idf10,2)+pow(idf5,2))
+
+    tf1 = 1+log(tf1,10) if (tf1 > 0) else 0 
+    tf2 = 1+log(tf2,10) if (tf2 > 0) else 0 
+    tf3 = 1+log(tf3,10) if (tf3 > 0) else 0 
+    tf4 = 1+log(tf4,10) if (tf4 > 0) else 0 
+    tf5 = 1+log(tf5,10) if (tf5 > 0) else 0 
+    tf6 = 1+log(tf6,10) if (tf6 > 0) else 0 
+    tf7 = 1+log(tf7,10) if (tf7 > 0) else 0 
+    tf8 = 1+log(tf8,10) if (tf8 > 0) else 0 
+    tf9 = 1+log(tf9,10) if (tf9 > 0) else 0 
+    tf10 = 1+log(tf10,10) if (tf10 > 0) else 0 
+    tf11 = 1+log(tf11,10) if (tf11 > 0) else 0 
+    tf12 = 1+log(tf12,10) if (tf12 > 0) else 0 
+    tf13 = 1+log(tf13,10) if (tf13 > 0) else 0 
+    tf14 = 1+log(tf14,10) if (tf14 > 0) else 0 
+    tf15 = 1+log(tf15,10) if (tf15 > 0) else 0 
+
+    tf1l = tf1/sqrt(pow(tf1,2)+pow(tf6,2)+pow(tf11,2))
+    tf2l = tf2/sqrt(pow(tf2,2)+pow(tf7,2)+pow(tf12,2))
+    tf3l = tf3/sqrt(pow(tf3,2)+pow(tf8,2)+pow(tf13,2))
+    tf4l = tf4/sqrt(pow(tf4,2)+pow(tf9,2)+pow(tf14,2))
+    tf5l = tf5/sqrt(pow(tf5,2)+pow(tf10,2)+pow(tf15,2))
+    tf6l = tf6/sqrt(pow(tf6,2)+pow(tf11,2)+pow(tf1,2))
+    tf7l = tf7/sqrt(pow(tf7,2)+pow(tf12,2)+pow(tf12,2))
+    tf8l = tf8/sqrt(pow(tf8,2)+pow(tf13,2)+pow(tf3,2))
+    tf9l = tf9/sqrt(pow(tf9,2)+pow(tf14,2)+pow(tf14,2))
+    tf10l = tf10/sqrt(pow(tf10,2)+pow(tf15,2)+pow(tf5,2))
+    tf11l = tf11/sqrt(pow(tf11,2)+pow(tf6,2)+pow(tf1,2))
+    tf12l = tf12/sqrt(pow(tf12,2)+pow(tf7,2)+pow(tf2,2))
+    tf13l = tf13/sqrt(pow(tf13,2)+pow(tf8,2)+pow(tf3,2))
+    tf14l = tf14/sqrt(pow(tf14,2)+pow(tf9,2)+pow(tf4,2))
+    tf15l = tf15/sqrt(pow(tf15,2)+pow(tf10,2)+pow(tf5,2))
+
+    score1 = tf1l * idf1l + tf2l * idf2l + 	tf3l * idf3l + tf4l * idf4l + tf5l * idf5l
+    score2 = tf6l * idf6l + tf7l * idf7l + 	tf8l * idf8l + tf9l * idf9l + tf10l * idf10l
+    score3 = tf11l * idf11l + tf12l * idf12l + tf13l * idf13l + tf14l * idf14l + tf15l * idf15l
+
+    if(max(score1, score2, score3)==score1):
+        return "Bullish"
+    elif(max(score1, score2, score3)==score2):
+        return "Bearish"
+    else:
+        return "Neutral"
+
 # MAIN PROGRAM
 
-data = pd.read_csv("bse_data_with_rsi.csv")
+# # for main
+# data = pd.read_csv("bse_data_with_rsi.csv")
+# # f1=open('./doc2.txt', 'w+')
+# f2=open('./doc.txt', 'w+')
+# query=0
+
+
+#for query
+data = pd.read_csv("query_data_with_rsi.csv")
+# # f1=open('./query_doc2.txt', 'w+')
+f2=open('./query_doc.txt', 'w+')
+query=1
+
+
+
 data.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Change', 'Upward Movement', 'Downward Movement', 'Avg UM', 'Avg DM', 'Relative Strength', 'RSI']
 data = data.drop(['Date', 'Change', 'Upward Movement', 'Downward Movement', 'Avg UM', 'Avg DM', 'Relative Strength'], axis = 1)
 data = data.drop([0, 1, 2, 3, 4], axis=0)
@@ -1771,12 +1926,12 @@ for i,j in data.iterrows():
 
     datasheet[k]=d
     k = k+1
-datasheet
+
 clusters = {}
 
 y=6
 x=0
-for index in range(len(datasheet)-6):
+for index in range(len(datasheet)-5):
     if(index==0):
         continue
     while(y>0):
@@ -1813,6 +1968,7 @@ count_of_identified_candlestick_cluster = {
 
 div_count=0
 sr_count=0
+data_for_future_trend={}
 
 for index in range(len(clusters)-1):
     
@@ -1827,71 +1983,71 @@ for index in range(len(clusters)-1):
     
     if(identified_candlestick['Kicking_Bullish']!=0):
         count_of_identified_candlestick_cluster['Kicking_Bullish']+=1
-        identified_candlestick_cluster+="Kicking_Bullish "
+        identified_candlestick_cluster+="Kicking_Bullish"
 
     if(identified_candlestick['Engulfing_Bullish']!=0):
         count_of_identified_candlestick_cluster['Engulfing_Bullish']+=1
-        identified_candlestick_cluster+="Engulfing_Bullish "
+        identified_candlestick_cluster+="Engulfing_Bullish"
 
     if(identified_candlestick['Harami_Bullish']!=0):
         count_of_identified_candlestick_cluster['Harami_Bullish']+=1
-        identified_candlestick_cluster+="Harami_Bullish "
+        identified_candlestick_cluster+="Harami_Bullish"
 
     if(identified_candlestick['Meeting_Line_Bullish']!=0):
         count_of_identified_candlestick_cluster['Meeting_Line_Bullish']+=1
-        identified_candlestick_cluster+="Meeting_Line_Bullish "
+        identified_candlestick_cluster+="Meeting_Line_Bullish"
 
     if(identified_candlestick['Kicking_Bearish']!=0):
         count_of_identified_candlestick_cluster['Kicking_Bearish']+=1
-        identified_candlestick_cluster+="Kicking_Bearish "
+        identified_candlestick_cluster+="Kicking_Bearish"
 
     if(identified_candlestick['Engulfing_Bearish']!=0):
         count_of_identified_candlestick_cluster['Engulfing_Bearish']+=1
-        identified_candlestick_cluster+="Engulfing_Bearish "
+        identified_candlestick_cluster+="Engulfing_Bearish"
 
     if(identified_candlestick['Harami_Bearish']!=0):
         count_of_identified_candlestick_cluster['Harami_Bearish']+=1
-        identified_candlestick_cluster+="Harami_Bearish "
+        identified_candlestick_cluster+="Harami_Bearish"
 
     if(identified_candlestick['Meeting_Line_Bearish']!=0):
         count_of_identified_candlestick_cluster['Meeting_Line_Bearish']+=1
-        identified_candlestick_cluster+="Meeting_Line_Bearish "
+        identified_candlestick_cluster+="Meeting_Line_Bearish"
 
     if(identified_candlestick['Hammer']!=0):
         count_of_identified_candlestick_cluster['Hammer']+=1
-        identified_candlestick_cluster+="Hammer "
+        identified_candlestick_cluster+="Hammer"
 
     if(identified_candlestick['Inverted_Hammer']!=0):
         count_of_identified_candlestick_cluster['Inverted_Hammer']+=1
-        identified_candlestick_cluster+="Inverted_Hammer "
+        identified_candlestick_cluster+="Inverted_Hammer"
 
     if(identified_candlestick['Piercing_Line']!=0):
         count_of_identified_candlestick_cluster['Piercing_Line']+=1
-        identified_candlestick_cluster+="Piercing_Line "
+        identified_candlestick_cluster+="Piercing_Line"
 
     if(identified_candlestick['Homing_Pigeon']!=0):
         count_of_identified_candlestick_cluster['Homing_Pigeon']+=1
-        identified_candlestick_cluster+="Homing_Pigeon "
+        identified_candlestick_cluster+="Homing_Pigeon"
 
     if(identified_candlestick['Hanging_Man']!=0):
         count_of_identified_candlestick_cluster['Hanging_Man']+=1
-        identified_candlestick_cluster+="Hanging_Man "
+        identified_candlestick_cluster+="Hanging_Man"
 
     if(identified_candlestick['One_White_Soldier']!=0):
         count_of_identified_candlestick_cluster['One_White_Soldier']+=1
-        identified_candlestick_cluster+="One_White_Soldier "
+        identified_candlestick_cluster+="One_White_Soldier"
 
     if(identified_candlestick['Descending_Hawk']!=0):
         count_of_identified_candlestick_cluster['Descending_Hawk']+=1
-        identified_candlestick_cluster+="Descending_Hawk "
+        identified_candlestick_cluster+="Descending_Hawk"
 
     if(identified_candlestick['One_Black_Crow']!=0):
         count_of_identified_candlestick_cluster['One_Black_Crow']+=1
-        identified_candlestick_cluster+="One_Black_Crow "
+        identified_candlestick_cluster+="One_Black_Crow"
         
     if(identified_candlestick['Dark_Cloud_Clover']!=0):
         count_of_identified_candlestick_cluster['Dark_Cloud_Clover']+=1
-        identified_candlestick_cluster+="Dark_Cloud_Clover "
+        identified_candlestick_cluster+="Dark_Cloud_Clover"
     
     if(
     identified_candlestick['Kicking_Bullish'] == 0 and 
@@ -1911,7 +2067,7 @@ for index in range(len(clusters)-1):
     identified_candlestick['Descending_Hawk'] == 0 and 
     identified_candlestick['One_Black_Crow'] == 0 and 
     identified_candlestick['Dark_Cloud_Clover'] == 0 ):
-        identified_candlestick_cluster+="No_Candlestick_Found "
+        identified_candlestick_cluster+="No_Candlestick_Found"
         
     
 
@@ -2150,38 +2306,41 @@ for index in range(len(clusters)-1):
     if(y<=85 and y>75):
         RSI_Trend='OVERSOLD'
     
-#     print(fuzzified_candlestick_cluster[1]['Fuzzy_Trend'], 
-#           fuzzified_candlestick_cluster[2]['Fuzzy_Trend'], 
-#           fuzzified_candlestick_cluster[3]['Fuzzy_Trend'], 
-#           identified_candlestick_cluster, 
-#           fuzzified_candlestick_cluster[1]['RSI'], 
-#           fuzzified_candlestick_cluster[2]['RSI'], 
-#           fuzzified_candlestick_cluster[3]['RSI'], 
-#           div,
-#           sr
-#           )
-# identified_candlestick_cluster
-    f2=open('./doc.txt', 'a+')
+    data_for_f_t={'Previous_Trend': Previous_Trend, 'identified_candlestick_cluster': identified_candlestick_cluster, 'RSI_Trend': RSI_Trend, 'div': div, 'sr': sr}
 
-    f2.write(fuzzified_candlestick_cluster[1]['Fuzzy_Trend'] + " " +
-          fuzzified_candlestick_cluster[2]['Fuzzy_Trend'] + " " + 
-          fuzzified_candlestick_cluster[3]['Fuzzy_Trend'] + " " + 
-          identified_candlestick_cluster + " " + 
-          fuzzified_candlestick_cluster[1]['RSI'] + " " + 
-          fuzzified_candlestick_cluster[2]['RSI'] + " " + 
-          fuzzified_candlestick_cluster[3]['RSI'] + " " + 
-          div + " " +
-          sr + "\n"
-          )
-    
-    f1=open('./doc2.txt', 'a+')
-    
-    f1.write(Previous_Trend + " " + 
-    identified_candlestick_cluster + " " + 
-    RSI_Trend + " " + 
-    div + " " +
-    sr + "\n"
-    )
+    f2.write(Previous_Trend + " " + 
+        identified_candlestick_cluster+ " " +
+        RSI_Trend + " " + 
+        div + " " +
+        sr + "\n"
+        )
+    data_for_future_trend[index]=data_for_f_t
 
-f1.close()
 f2.close()
+
+doc=''
+
+if(query==0):
+    for index in range(len(clusters)-2):
+        doc=data_for_future_trend[index+1]['Previous_Trend']
+        filename = os.getcwd()+ "/documents/"+doc+".txt"
+
+        f3 = open(filename, "a+")
+        f3.write(data_for_future_trend[index]['Previous_Trend'] + " " + 
+        data_for_future_trend[index]['identified_candlestick_cluster'] + " " +
+        data_for_future_trend[index]['RSI_Trend'] + " " + 
+        data_for_future_trend[index]['div'] + " " +
+        data_for_future_trend[index]['sr'] + "\n"
+        )
+        f3.close()
+
+if(query==1):
+            
+    for index in range(len(data_for_future_trend)-2):
+        q=Query(data_for_future_trend[index]['Previous_Trend'], 
+            data_for_future_trend[index]['identified_candlestick_cluster'], 
+            data_for_future_trend[index]['RSI_Trend'], 
+            data_for_future_trend[index]['div'], 
+            data_for_future_trend[index]['sr'])
+        print(q)
+    
