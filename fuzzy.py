@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import sys
 from math import log
 from math import sqrt
 import matplotlib.pyplot as plt 
@@ -1262,7 +1263,7 @@ def identify_candlestick(cluster, candlestick_cluster, fuzzified_candlestick_clu
     # 2 DAY BEARISH CANDLESTICKS
     # kicking={}
     # engulfing={}
-    # harami={}_Bullish
+    # harami={}
     # meeting_line={}
     hanging_man={}
     descending_hawk={}
@@ -1822,21 +1823,21 @@ def Query(Previous_Trend, identified_candlestick_cluster, RSI_Trend, div, sr):
         if(swingrejection == sr):
             tf15 = tf15+1
 
-    idf1 = log((41483/(1+tf6+tf11)),10)
-    idf2 = log((41483/(1+tf7+tf12)),10)
-    idf3 = log((41483/(1+tf8+tf13)),10)
-    idf4 = log((41483/(1+tf9+tf14)),10)
-    idf5 = log((41483/(1+tf10+tf15)),10)
-    idf6 = log((41483/(1+tf11+tf1)),10)
-    idf7 = log((41483/(1+tf2+tf12)),10)
-    idf8 = log((41483/(1+tf13+tf3)),10)
-    idf9 = log((41483/(1+tf4+tf14)),10)
-    idf10 = log((41483/(1+tf15+tf5)),10)
-    idf11 = log((41483/(1+tf6+tf1)),10)
-    idf12 = log((41483/(1+tf7+tf2)),10)
-    idf13 = log((41483/(1+tf8+tf3)),10)
-    idf14 = log((41483/(1+tf9+tf4)),10)
-    idf15 = log((41483/(1+tf10+tf5)),10)
+    idf1 = log((41484/(1+tf6+tf11)),10)
+    idf2 = log((41484/(1+tf7+tf12)),10)
+    idf3 = log((41484/(1+tf8+tf13)),10)
+    idf4 = log((41484/(1+tf9+tf14)),10)
+    idf5 = log((41484/(1+tf10+tf15)),10)
+    idf6 = log((41484/(1+tf11+tf1)),10)
+    idf7 = log((41484/(1+tf2+tf12)),10)
+    idf8 = log((41484/(1+tf13+tf3)),10)
+    idf9 = log((41484/(1+tf4+tf14)),10)
+    idf10 = log((41484/(1+tf15+tf5)),10)
+    idf11 = log((41484/(1+tf6+tf1)),10)
+    idf12 = log((41484/(1+tf7+tf2)),10)
+    idf13 = log((41484/(1+tf8+tf3)),10)
+    idf14 = log((41484/(1+tf9+tf4)),10)
+    idf15 = log((41484/(1+tf10+tf5)),10)
 
     idf1l = idf1/sqrt(pow(idf1,2)+pow(idf6,2)+pow(idf11,2))
     idf2l = idf2/sqrt(pow(idf2,2)+pow(idf7,2)+pow(idf12,2))
@@ -1899,24 +1900,18 @@ def Query(Previous_Trend, identified_candlestick_cluster, RSI_Trend, div, sr):
 
 # MAIN PROGRAM
 
-# # for main
+# # for main, uncomment
 # data = pd.read_csv("bse_data_with_rsi.csv")
-# # f1=open('./doc2.txt', 'w+')
+# f1=open('./doc2.txt', 'w+')
 # f2=open('./doc.txt', 'w+')
 # query=0
 
 
-#for query
+#for query, uncomment
 data = pd.read_csv("query_data_with_rsi.csv")
-# # f1=open('./query_doc2.txt', 'w+')
+f1=open('./query_doc2.txt', 'w+')
 f2=open('./query_doc.txt', 'w+')
 query=1
-
-
-
-data.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Change', 'Upward Movement', 'Downward Movement', 'Avg UM', 'Avg DM', 'Relative Strength', 'RSI']
-data = data.drop(['Date', 'Change', 'Upward Movement', 'Downward Movement', 'Avg UM', 'Avg DM', 'Relative Strength'], axis = 1)
-data = data.drop([0, 1, 2, 3, 4], axis=0)
 
 k = 1
 datasheet = {}
@@ -1927,25 +1922,22 @@ for i,j in data.iterrows():
     datasheet[k]=d
     k = k+1
 
-clusters = {}
-
 y=6
 x=0
+clusters={}
 for index in range(len(datasheet)-5):
     if(index==0):
         continue
-    while(y>0):
-        d={0 : datasheet[index], 
-         1 : datasheet[index+1],
-         2 : datasheet[index+2],
-         3 : datasheet[index+3],
-         4 : datasheet[index+4],
-         5 : datasheet[index+5]}
-        clusters[x] = d
-        y-=1
-        x+=1
-    y=6    
 
+    d={0 : datasheet[index], 
+     1 : datasheet[index+1],
+     2 : datasheet[index+2],
+     3 : datasheet[index+3],
+     4 : datasheet[index+4],
+     5 : datasheet[index+5]}
+    clusters[x] = d
+    
+    x+=1
 count_of_identified_candlestick_cluster = {
 'Kicking_Bullish' : 0,
     'Kicking_Bearish' : 0,
@@ -1969,6 +1961,8 @@ count_of_identified_candlestick_cluster = {
 div_count=0
 sr_count=0
 data_for_future_trend={}
+hew=0
+max_hew=0
 
 for index in range(len(clusters)-1):
     
@@ -2314,9 +2308,22 @@ for index in range(len(clusters)-1):
         div + " " +
         sr + "\n"
         )
+    
+    
+    f1.write(fuzzified_candlestick_cluster[1]['Fuzzy_Trend'] + " " +
+          fuzzified_candlestick_cluster[2]['Fuzzy_Trend'] + " " + 
+          fuzzified_candlestick_cluster[3]['Fuzzy_Trend'] + " " + 
+          identified_candlestick_cluster + " " + 
+          fuzzified_candlestick_cluster[1]['RSI'] + " " + 
+          fuzzified_candlestick_cluster[2]['RSI'] + " " + 
+          fuzzified_candlestick_cluster[3]['RSI'] + " " + 
+          div + " " +
+          sr + "\n"
+          )
     data_for_future_trend[index]=data_for_f_t
 
 f2.close()
+f1.close()
 
 doc=''
 
@@ -2333,14 +2340,15 @@ if(query==0):
         data_for_future_trend[index]['sr'] + "\n"
         )
         f3.close()
+    print('Documents created')
 
 if(query==1):
             
-    for index in range(len(data_for_future_trend)-2):
+    for index in range(len(data_for_future_trend)):
         q=Query(data_for_future_trend[index]['Previous_Trend'], 
             data_for_future_trend[index]['identified_candlestick_cluster'], 
             data_for_future_trend[index]['RSI_Trend'], 
             data_for_future_trend[index]['div'], 
             data_for_future_trend[index]['sr'])
-        print(q)
+        print('The future trend for', data['Date'][index+5], 'is : ', q)
     
