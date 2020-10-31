@@ -21,3 +21,22 @@ here is that we include the different kinds of candlesticks that are used to qua
 a market (for example - hanging man, kicking bullish candlestick) and the relative strength index (RSI)
 values (which signify momentum of the market) to our list of parameters. These added factors to the
 fuzzy representation of trends in our documents makes the future trend prediction more accurate.
+
+## Methodology
+
+The data in the time series
+that we have used is represented by candlesticks in the form of Open, High, Low, Close values as well
+as the properties of the candlesticks. Candlesticks are useful for representing the discrete data in an
+understandable form. There exist some candlesticks for identifying particular patterns of the market
+which helps to predict the future trends in the market (such as trend reversals).
+We then created fuzzy rules on the basis of cluster of days , each set of 5 consecutive days being one
+cluster. This helps us to create more number of clusters and expanding our document base. After that
+we normalised the discrete value by defining some functions which quantify the properties of candle-
+sticks and trends. On the basis of this data, we derived membership functions through which we created
+fuzzified data. With the help of this fuzzy data, we then created fuzzy rules through which we were
+able to realise the different candlestick patterns which exist in the stock market. Along with momentum
+of the market, we used all of these characteristics to create documents for each cluster. Through fuzzy
+information retrieval systems, we were able to rank each term according to its relevance in the pool of
+documents representing the future trend. The query with the highest relevance is matched and we finally
+get the future trend of the market along with the fuzzy documents representing the strength of our pre-
+diction.
