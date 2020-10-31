@@ -1,5 +1,7 @@
 # Stock-Market-Trend-Forecasting
-A novel stock market trend forecasting system using fuzzy logic.
+A time series prediction tool using fuzzy logic and fuzzy information
+retrieval system to predict the trends in stock markets using Python, using metrics
+such as RSI, common candlestick patterns, NIFTY50/ BSI OHLC data.
 
 Paper : https://drive.google.com/open?id=1O9l39u5vvq-1GljLf930MpLsjXWdMXw8
 
